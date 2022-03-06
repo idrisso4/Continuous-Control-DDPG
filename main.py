@@ -44,7 +44,7 @@ if __name__ == "__main__":
     state_size = len(state)
     print("States have length:", state_size)
 
-    agent = Agent(state_size=state_size, action_size=action_size, seed=0)
+    agent = Agent(state_size=state_size, action_size=action_size, random_seed=0)
 
     model_train = args.train
     model_eval = args.eval

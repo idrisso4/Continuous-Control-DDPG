@@ -37,7 +37,7 @@ class Agent:
         self.actor_local = Actor(state_size, action_size, random_seed).to(self.device)
         self.actor_target = Actor(state_size, action_size, random_seed).to(self.device)
         self.actor_optimizer = optim.Adam(
-            self.actor_local.parameters(), lr=self.config["LR_ACTOR"]
+            self.actor_local.parameters(), lr=float(self.config["LR_ACTOR"])
         )
 
         # Critic Network (w/ Target Network)
@@ -47,7 +47,7 @@ class Agent:
         )
         self.critic_optimizer = optim.Adam(
             self.critic_local.parameters(),
-            lr=self.config["LR_CRITIC"],
+            lr=float(self.config["LR_CRITIC"]),
             weight_decay=self.config["WEIGHT_DECAY"],
         )
 
@@ -57,7 +57,7 @@ class Agent:
         # Replay memory
         self.memory = ReplayBuffer(
             action_size,
-            self.config["BUFFER_SIZE"],
+            int(float(self.config["BUFFER_SIZE"])),
             self.config["BATCH_SIZE"],
             random_seed,
         )
@@ -124,8 +124,10 @@ class Agent:
         self.actor_optimizer.step()
 
         # ------ update target networks ------- #
-        self.soft_update(self.critic_local, self.critic_target, self.config["TAU"])
-        self.soft_update(self.actor_local, self.actor_target, self.config["TAU"])
+        self.soft_update(
+            self.critic_local, self.critic_target, float(self.config["TAU"])
+        )
+        self.soft_update(self.actor_local, self.actor_target, float(self.config["TAU"]))
 
     def soft_update(self, local_model, target_model, tau):
         """Soft update model parameters.

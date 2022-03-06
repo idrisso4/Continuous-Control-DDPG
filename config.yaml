@@ -1,4 +1,4 @@
-BUFFER_SIZE: int(1e6)  # replay buffer size
+BUFFER_SIZE: 1e6  # replay buffer size
 BATCH_SIZE: 128  # minibatch size
 GAMMA: 0.99  # discount factor
 TAU: 1e-3  # for soft update of target parameters
@@ -6,7 +6,7 @@ LR_ACTOR: 1e-4  # learning rate of the actor
 LR_CRITIC: 3e-4  # learning rate of the critic
 WEIGHT_DECAY: 0.0001  # L2 weight decay
 
-ENVIRONMENT: /home/idriss/IDRISS/Udacity DRL/deep-reinforcement-learning/p1_navigation/Banana_Linux/Banana.x86_64
+ENVIRONMENT: /home/idriss/IDRISS/Udacity DRL/deep-reinforcement-learning/p2_continuous-control/Reacher_Linux/Reacher.x86_64
 device: cpu # Possible values cuda or cpu
 
 n_episodes: 1400
