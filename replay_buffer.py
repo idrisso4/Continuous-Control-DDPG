@@ -26,7 +26,8 @@ class ReplayBuffer:
         self.memory = deque(maxlen=buffer_size)  # internal memory (deque)
         self.batch_size = batch_size
         self.experience = namedtuple(
-            "Experience", field_names=["state", "action", "reward", "next_state", "done"]
+            "Experience",
+            field_names=["state", "action", "reward", "next_state", "done"],
         )
         self.seed = random.seed(seed)
 
@@ -45,12 +46,16 @@ class ReplayBuffer:
             .to(self.device)
         )
         actions = (
-            torch.from_numpy(np.vstack([e.action for e in experiences if e is not None]))
+            torch.from_numpy(
+                np.vstack([e.action for e in experiences if e is not None])
+            )
             .float()
             .to(self.device)
         )
         rewards = (
-            torch.from_numpy(np.vstack([e.reward for e in experiences if e is not None]))
+            torch.from_numpy(
+                np.vstack([e.reward for e in experiences if e is not None])
+            )
             .float()
             .to(self.device)
         )

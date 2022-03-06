@@ -8,3 +8,6 @@ WEIGHT_DECAY: 0.0001  # L2 weight decay
 
 ENVIRONMENT: /home/idriss/IDRISS/Udacity DRL/deep-reinforcement-learning/p1_navigation/Banana_Linux/Banana.x86_64
 device: cpu # Possible values cuda or cpu
+
+n_episodes: 1400
+max_t: 1000

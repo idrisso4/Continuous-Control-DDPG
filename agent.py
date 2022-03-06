@@ -42,7 +42,9 @@ class Agent:
 
         # Critic Network (w/ Target Network)
         self.critic_local = Critic(state_size, action_size, random_seed).to(self.device)
-        self.critic_target = Critic(state_size, action_size, random_seed).to(self.device)
+        self.critic_target = Critic(state_size, action_size, random_seed).to(
+            self.device
+        )
         self.critic_optimizer = optim.Adam(
             self.critic_local.parameters(),
             lr=self.config["LR_CRITIC"],
@@ -61,7 +63,8 @@ class Agent:
         )
 
     def step(self, state, action, reward, next_state, done):
-        """Save experience in replay memory, and use random sample from buffer to learn."""
+        """Save experience in replay memory,
+        and use random sample from buffer to learn."""
         # Save experience / reward
         self.memory.add(state, action, reward, next_state, done)
 
@@ -97,7 +100,7 @@ class Agent:
         """
         states, actions, rewards, next_states, dones = experiences
 
-        # ---------------------------- update critic ---------------------------- #
+        # ------ update critic ----- #
         # Get predicted next-state actions and Q values from target models
         actions_next = self.actor_target(next_states)
         Q_targets_next = self.critic_target(next_states, actions_next)
@@ -111,7 +114,7 @@ class Agent:
         critic_loss.backward()
         self.critic_optimizer.step()
 
-        # ---------------------------- update actor ---------------------------- #
+        # ------ update actor ------ #
         # Compute actor loss
         actions_pred = self.actor_local(states)
         actor_loss = -self.critic_local(states, actions_pred).mean()
@@ -120,7 +123,7 @@ class Agent:
         actor_loss.backward()
         self.actor_optimizer.step()
 
-        # ----------------------- update target networks ----------------------- #
+        # ------ update target networks ------- #
         self.soft_update(self.critic_local, self.critic_target, self.config["TAU"])
         self.soft_update(self.actor_local, self.actor_target, self.config["TAU"])
 

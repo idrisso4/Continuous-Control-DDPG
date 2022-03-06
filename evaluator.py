@@ -45,7 +45,9 @@ def evaluate(
         scores_window.append(score)
         scores.append(score)
         print(
-            "\nAfter 100 episodes!\tAverage Score: {:.2f}".format(np.mean(scores_window))
+            "\nAfter 100 episodes!\tAverage Score: {:.2f}".format(
+                np.mean(scores_window)
+            )
         )
 
     return scores
