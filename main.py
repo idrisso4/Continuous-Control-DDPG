@@ -69,7 +69,7 @@ if __name__ == "__main__":
     if model_eval:
 
         model = Actor(state_size, action_size, 0).to(device)
-        model.load_state_dict(torch.load("model.pth"))
+        model.load_state_dict(torch.load("checkpoint_actor.pth"))
         model.eval()
 
         evaluate(env, brain_name, model, device, n_episodes=100, max_t=1000)
