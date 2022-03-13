@@ -8,7 +8,7 @@ import torch
 def evaluate(
     env,
     brain_name,
-    model,
+    actor,
     device,
     n_episodes=100,
     max_t=1000,
@@ -18,7 +18,7 @@ def evaluate(
     ======
         env: Unity Environment
         brain_name (str): name of the brain
-        model: the trained model
+        actor: the trained actor
         device: device cpu or gpu
         n_episodes (int): maximum number of training episodes
         max_t (int): maximum number of timesteps per episode
@@ -30,9 +30,13 @@ def evaluate(
         state = env_info.vector_observations[0]
         score = 0
         for _ in range(max_t):
-            state = torch.from_numpy(state).float().unsqueeze(0).to(device)
+            state = torch.from_numpy(state).float().to(device)
+            actor.eval()
             with torch.no_grad():
-                action = np.argmax(model(state).cpu().data.numpy())
+                action = actor(state).cpu().data.numpy()
+            actor.train()
+            action = np.clip(action, -1, 1)
+
             env_info = env.step(action)[brain_name]
             next_state = env_info.vector_observations[0]
             reward = env_info.rewards[0]
