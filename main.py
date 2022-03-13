@@ -6,7 +6,6 @@ import torch
 from unityagents import UnityEnvironment
 
 from actor import Actor
-from agent import Agent
 from evaluator import evaluate
 from trainer import train
 from utils import read_config
@@ -39,12 +38,16 @@ if __name__ == "__main__":
     print("Number of actions:", action_size)
 
     # examine the state space
-    state = env_info.vector_observations[0]
-    print("States look like:", state)
-    state_size = len(state)
+    states = env_info.vector_observations
+    print("States look like:", states)
+    state_size = states.shape[1]
     print("States have length:", state_size)
 
-    agent = Agent(state_size=state_size, action_size=action_size, random_seed=0)
+    agent_config = {
+        "state_size": state_size,
+        "action_size": action_size,
+        "random_seed": 0,
+    }
 
     model_train = args.train
     model_eval = args.eval
@@ -54,7 +57,7 @@ if __name__ == "__main__":
         scores = train(
             env=env,
             brain_name=brain_name,
-            agent=agent,
+            agent_config=agent_config,
             n_episodes=config["n_episodes"],
             max_t=config["max_t"],
         )

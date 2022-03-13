@@ -62,7 +62,7 @@ class Agent:
             random_seed,
         )
 
-    def step(self, state, action, reward, next_state, done):
+    def step(self, state, action, reward, next_state, done, num_update=1):
         """Save experience in replay memory,
         and use random sample from buffer to learn."""
         # Save experience / reward
@@ -70,8 +70,9 @@ class Agent:
 
         # Learn, if enough samples are available in memory
         if len(self.memory) > self.config["BATCH_SIZE"]:
-            experiences = self.memory.sample()
-            self.learn(experiences, self.config["GAMMA"])
+            for _ in range(num_update):
+                experiences = self.memory.sample()
+                self.learn(experiences, self.config["GAMMA"])
 
     def act(self, state, add_noise=True):
         """Returns actions for given state as per current policy."""
